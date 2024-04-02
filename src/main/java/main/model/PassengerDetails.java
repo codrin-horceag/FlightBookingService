@@ -1,6 +1,7 @@
-package dto;
+package main.model;
 
-public class PassengerDetailsDTO {
+public class PassengerDetails {
+
     private String firstName;
     private String lastName;
     private String email;
@@ -38,3 +39,4 @@ public class PassengerDetailsDTO {
         this.hasLuggage = hasLuggage;
     }
 }
+

@@ -1,7 +1,7 @@
-package mapper;
+package main.mapper;
 
-import dto.FlightDetailsDTO;
-import model.FlightDetails;
+import main.dto.FlightDetailsDTO;
+import main.model.FlightDetails;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,8 +12,8 @@ public class FlightDetailsMapper {
         entity.setFlightId(dto.getFlightId());
         entity.setDeparture(dto.getDeparture());
         entity.setArrival(dto.getArrival());
-        entity.setOrigin(dto.getOrigin());
-        entity.setDestination(dto.getDestination());
+        entity.setNumberOfSeats(dto.getNumberOfSeats());
+        entity.setStandardPrice(dto.getStandardPrice());
         return entity;
     }
 
@@ -23,8 +23,8 @@ public class FlightDetailsMapper {
         dto.setFlightId(entity.getFlightId());
         dto.setDeparture(entity.getDeparture());
         dto.setArrival(entity.getArrival());
-        dto.setOrigin(entity.getOrigin());
-        dto.setDestination(entity.getDestination());
+        dto.setNumberOfSeats(entity.getNumberOfSeats());
+        dto.setStandardPrice(entity.getStandardPrice());
         return dto;
     }
 }

@@ -1,6 +1,6 @@
-package service;
+package main.service;
 
-import dto.BookingDTO;
+import main.dto.BookingDTO;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

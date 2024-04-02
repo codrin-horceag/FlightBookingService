@@ -1,7 +1,7 @@
-package mapper;
+package main.mapper;
 
-import dto.PaymentDetailsDTO;
-import model.PaymentDetails;
+import main.dto.PaymentDetailsDTO;
+import main.model.PaymentDetails;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,13 +1,13 @@
-package controller;
+package main.controller;
 
-import dto.BookingDTO;
+import main.dto.BookingDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import service.BookingService;
+import main.service.BookingService;
 
 @RestController
 @RequestMapping("/api/bookings")

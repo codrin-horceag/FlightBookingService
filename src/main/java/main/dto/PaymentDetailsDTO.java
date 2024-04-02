@@ -1,12 +1,10 @@
-package model;
+package main.dto;
 
-public class PaymentDetails {
-
+public class PaymentDetailsDTO {
     private String iban;
     private double amount;
     private String currency;
     private String status;
-    private String paymentService;
 
     public String getIban() {
         return iban;
@@ -39,15 +37,4 @@ public class PaymentDetails {
     public void setStatus(String status) {
         this.status = status;
     }
-
-    public String getPaymentService() {
-        return paymentService;
-    }
-
-    public void setPaymentService(String paymentService) {
-        this.paymentService = paymentService;
-    }
-
-    // Getters and Setters
 }
-

@@ -1,7 +1,7 @@
-package mapper;
+package main.mapper;
 
-import dto.PassengerDetailsDTO;
-import model.PassengerDetails;
+import main.dto.PassengerDetailsDTO;
+import main.model.PassengerDetails;
 import org.springframework.stereotype.Component;
 
 @Component

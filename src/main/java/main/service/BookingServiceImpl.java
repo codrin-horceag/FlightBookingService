@@ -1,12 +1,12 @@
-package service;
+package main.service;
 
-import dto.BookingDTO;
-import mapper.BookingMapper;
+import main.dto.BookingDTO;
+import main.mapper.BookingMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import repository.BookingRepository;
+import main.repository.BookingRepository;
 
 @Service
 public class BookingServiceImpl implements BookingService{

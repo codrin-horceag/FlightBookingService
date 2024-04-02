@@ -1,7 +1,7 @@
-package mapper;
+package main.mapper;
 
-import dto.BookingDTO;
-import model.Booking;
+import main.dto.BookingDTO;
+import main.model.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

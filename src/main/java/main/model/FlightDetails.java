@@ -1,14 +1,15 @@
-package dto;
+package main.model;
 
 import java.time.LocalDateTime;
 
-public class FlightDetailsDTO {
+public class FlightDetails {
+
     private String operatorId;
     private String flightId;
     private LocalDateTime departure;
     private LocalDateTime arrival;
-    private String origin;
-    private String destination;
+    private Integer numberOfSeats;
+    private Double standardPrice;
 
     public String getOperatorId() {
         return operatorId;
@@ -42,19 +43,19 @@ public class FlightDetailsDTO {
         this.arrival = arrival;
     }
 
-    public String getOrigin() {
-        return origin;
+    public Integer getNumberOfSeats() {
+        return numberOfSeats;
     }
 
-    public void setOrigin(String origin) {
-        this.origin = origin;
+    public void setNumberOfSeats(Integer numberOfSeats) {
+        this.numberOfSeats = numberOfSeats;
     }
 
-    public String getDestination() {
-        return destination;
+    public Double getStandardPrice() {
+        return standardPrice;
     }
 
-    public void setDestination(String destination) {
-        this.destination = destination;
+    public void setStandardPrice(Double standardPrice) {
+        this.standardPrice = standardPrice;
     }
 }
