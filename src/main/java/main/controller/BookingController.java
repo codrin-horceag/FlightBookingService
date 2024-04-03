@@ -42,12 +42,17 @@ public class BookingController {
         return bookingService.updateBooking(id, bookingDTO)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
+
+        //TODO: send kafka topic example, to be replaced by real functionality for update booking
+
     }
 
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteBooking(@PathVariable String id) {
         return bookingService.deleteBooking(id);
+        //TODO: send kafka topic example, to be replaced by real functionality for cancel booking
+
     }
 }
 

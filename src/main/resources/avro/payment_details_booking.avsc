@@ -1,0 +1,35 @@
+{
+  "namespace": "avro",
+  "type": "record",
+  "name": "PaymentDetailsBookingRecord",
+  "fields": [
+    {"name": "id", "type": ["null", "string"], "default": null},
+    {"name": "bookingId", "type": "string"},
+    {
+      "name": "flightDetails",
+      "type": {
+        "type": "record",
+        "name": "FlightDetailsRecord",
+        "fields": [
+          {"name": "standardPrice", "type": "double"}
+        ]
+      }
+    },
+    {
+      "name": "paymentDetails",
+      "type": {
+        "type": "record",
+        "name": "PaymentDetailsRecord",
+        "fields": [
+          {"name": "cardNumber", "type": "string"},
+          {"name": "cardHolderName", "type": "string"},
+          {"name": "expirationMonth", "type": "string"},
+          {"name": "expirationYear", "type": "string"},
+          {"name": "cvv", "type": "int"},
+          {"name": "currency", "type": "string"},
+          {"name": "status", "type": "string"}
+        ]
+      }
+    }
+  ]
+}

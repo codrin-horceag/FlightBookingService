@@ -1,7 +1,11 @@
 package main.service;
 
+import avro.PaymentDetailsBookingRecord;
 import main.dto.BookingDTO;
 import main.mapper.BookingMapper;
+import main.mapper.avro.PaymentDetailsBookingRecordMapper;
+import main.producer.BookingProducerService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -15,13 +19,22 @@ public class BookingServiceImpl implements BookingService{
     private BookingRepository bookingRepository;
 
     @Autowired
+    private PaymentDetailsBookingRecordMapper paymentDetailsBookingRecordMapper;
+    @Autowired
     private BookingMapper bookingMapper;
+
+    @Autowired
+    private BookingProducerService bookingProducerService;
 
     @Override
     public Mono<BookingDTO> createBooking(Mono<BookingDTO> bookingDTOMono) {
         return bookingDTOMono.map(bookingMapper::toEntity)
                 .flatMap(bookingRepository::save)
-                .map(bookingMapper::toDTO);
+                .map(bookingMapper::toDTO)
+                .doOnSuccess(bookingDTO -> {
+                    PaymentDetailsBookingRecord paymentDetailsBookingRecord = paymentDetailsBookingRecordMapper.toAvroRecord(bookingDTO);
+                    bookingProducerService.sendPaymentDetailsBookingRecord("payment-details-booking-topic", paymentDetailsBookingRecord);
+                });
     }
 
     @Override
@@ -39,8 +52,13 @@ public class BookingServiceImpl implements BookingService{
     @Override
     public Mono<BookingDTO> updateBooking(String id, Mono<BookingDTO> bookingDTOMono) {
         return bookingRepository.findById(id)
-                .flatMap(p -> bookingDTOMono.map(bookingMapper::toEntity)
-                        .doOnNext(e -> e.setId(id)))
+                .flatMap(existingBooking -> bookingDTOMono
+                        .map(bookingMapper::toEntity)
+                        .doOnNext(updatedBooking -> {
+                            String[] ignoreProperties = {"id"};
+                            BeanUtils.copyProperties(updatedBooking, existingBooking, ignoreProperties);
+                        })
+                        .then(Mono.just(existingBooking)))
                 .flatMap(bookingRepository::save)
                 .map(bookingMapper::toDTO);
     }

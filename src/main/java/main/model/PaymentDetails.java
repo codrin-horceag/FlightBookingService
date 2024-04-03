@@ -2,26 +2,20 @@ package main.model;
 
 public class PaymentDetails {
 
-    private String iban;
-    private double amount;
+    private String cardNumber;
+    private String cardHolderName;
+    private String expirationMonth;
+    private String expirationYear;
+    private Integer cvv;
     private String currency;
     private String status;
-    private String paymentService;
 
-    public String getIban() {
-        return iban;
+    public String getCardNumber() {
+        return cardNumber;
     }
 
-    public void setIban(String iban) {
-        this.iban = iban;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
     }
 
     public String getCurrency() {
@@ -40,14 +34,36 @@ public class PaymentDetails {
         this.status = status;
     }
 
-    public String getPaymentService() {
-        return paymentService;
+    public String getCardHolderName() {
+        return cardHolderName;
     }
 
-    public void setPaymentService(String paymentService) {
-        this.paymentService = paymentService;
+    public void setCardHolderName(String cardHolderName) {
+        this.cardHolderName = cardHolderName;
     }
 
-    // Getters and Setters
+    public String getExpirationMonth() {
+        return expirationMonth;
+    }
+
+    public void setExpirationMonth(String expirationMonth) {
+        this.expirationMonth = expirationMonth;
+    }
+
+    public String getExpirationYear() {
+        return expirationYear;
+    }
+
+    public void setExpirationYear(String expirationYear) {
+        this.expirationYear = expirationYear;
+    }
+
+    public Integer getCvv() {
+        return cvv;
+    }
+
+    public void setCvv(Integer cvv) {
+        this.cvv = cvv;
+    }
 }
 

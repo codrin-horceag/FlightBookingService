@@ -43,8 +43,11 @@
         "type": "record",
         "name": "PaymentDetailsRecord",
         "fields": [
-          {"name": "iban", "type": "string"},
-          {"name": "amount", "type": "double"},
+          {"name": "cardNumber", "type": "string"},
+          {"name": "cardHolderName", "type": "string"},
+          {"name": "expirationMonth", "type": "string"},
+          {"name": "expirationYear", "type": "string"},
+          {"name": "cvv", "type": "int"},
           {"name": "currency", "type": "string"},
           {"name": "status", "type": "string"}
         ]
