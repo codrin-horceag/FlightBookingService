@@ -2,7 +2,7 @@ package main.producer;
 
 
 import avro.BookingRecord;
-import avro.PaymentDetailsBookingRecord;
+import avro.PaymentRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -11,17 +11,14 @@ import org.springframework.stereotype.Service;
 public class BookingProducerService {
 
     @Autowired
-    private KafkaTemplate<String, BookingRecord> kafkaBookingRecordTemplate;
-
-    @Autowired
-    private KafkaTemplate<String, PaymentDetailsBookingRecord> kafkaPaymentDetailsBookingRecordTemplate;
+    private KafkaTemplate<String, Object> template;
 
     public void sendBookingRecord(String topic, BookingRecord bookingRecord) {
-        kafkaBookingRecordTemplate.send(topic, bookingRecord);
+        template.send(topic, bookingRecord);
     }
 
-    public void sendPaymentDetailsBookingRecord(String topic, PaymentDetailsBookingRecord paymentDetailsBookingRecord) {
-        kafkaPaymentDetailsBookingRecordTemplate.send(topic, paymentDetailsBookingRecord);
+    public void sendPaymentRequest(String topic, PaymentRequest PaymentRequest) {
+        template.send(topic, PaymentRequest);
     }
 }
 

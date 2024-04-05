@@ -1,9 +1,9 @@
 package main.service;
 
-import avro.PaymentDetailsBookingRecord;
+import avro.PaymentRequest;
 import main.dto.BookingDTO;
 import main.mapper.BookingMapper;
-import main.mapper.avro.PaymentDetailsBookingRecordMapper;
+import main.mapper.avro.PaymentRequestMapper;
 import main.producer.BookingProducerService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class BookingServiceImpl implements BookingService{
     private BookingRepository bookingRepository;
 
     @Autowired
-    private PaymentDetailsBookingRecordMapper paymentDetailsBookingRecordMapper;
+    private PaymentRequestMapper PaymentRequestMapper;
     @Autowired
     private BookingMapper bookingMapper;
 
@@ -32,8 +32,8 @@ public class BookingServiceImpl implements BookingService{
                 .flatMap(bookingRepository::save)
                 .map(bookingMapper::toDTO)
                 .doOnSuccess(bookingDTO -> {
-                    PaymentDetailsBookingRecord paymentDetailsBookingRecord = paymentDetailsBookingRecordMapper.toAvroRecord(bookingDTO);
-                    bookingProducerService.sendPaymentDetailsBookingRecord("payment-details-booking-topic", paymentDetailsBookingRecord);
+                    PaymentRequest PaymentRequest = PaymentRequestMapper.toAvroRecord(bookingDTO);
+                    bookingProducerService.sendPaymentRequest("payment-details-booking-topic", PaymentRequest);
                 });
     }
 

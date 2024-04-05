@@ -1,7 +1,5 @@
 package main.mapper.avro;
-import avro.PaymentDetailsBookingRecord;
-import avro.FlightDetailsRecord;
-import avro.PaymentDetailsRecord;
+import avro.PaymentRequest;
 import main.dto.BookingDTO;
 import main.dto.FlightDetailsDTO;
 import main.dto.PaymentDetailsDTO;
@@ -9,16 +7,15 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class PaymentDetailsBookingRecordMapper {
+public class PaymentRequestMapper {
 
-    public PaymentDetailsBookingRecord toAvroRecord(BookingDTO bookingDto) {
+    public PaymentRequest toAvroRecord(BookingDTO bookingDto) {
         FlightDetailsDTO flightDetailsDto = bookingDto.getFlightDetails();
-        FlightDetailsRecord flightDetailsRecord = FlightDetailsRecord.newBuilder()
-                .setStandardPrice(flightDetailsDto.getStandardPrice())
-                .build();
-
         PaymentDetailsDTO paymentDetailsDto = bookingDto.getPaymentDetails();
-        PaymentDetailsRecord paymentDetailsRecord = PaymentDetailsRecord.newBuilder()
+        return PaymentRequest.newBuilder()
+                .setId(null)
+                .setBookingId(bookingDto.getBookingId())
+                .setPrice(flightDetailsDto.getStandardPrice())
                 .setCardNumber(paymentDetailsDto.getCardNumber())
                 .setCardHolderName(paymentDetailsDto.getCardHolderName())
                 .setExpirationMonth(paymentDetailsDto.getExpirationMonth())
@@ -28,12 +25,6 @@ public class PaymentDetailsBookingRecordMapper {
                 .setStatus(paymentDetailsDto.getStatus())
                 .build();
 
-        return PaymentDetailsBookingRecord.newBuilder()
-                .setId(null)
-                .setBookingId(bookingDto.getBookingId())
-                .setFlightDetails(flightDetailsRecord)
-                .setPaymentDetails(paymentDetailsRecord)
-                .build();
     }
 }
 
