@@ -6,8 +6,8 @@ public class FlightDetails {
 
     private String operatorId;
     private String flightId;
-    private LocalDateTime departure;
-    private LocalDateTime arrival;
+    private String departure;
+    private String destination;
     private Integer numberOfSeats;
     private Double standardPrice;
 
@@ -27,20 +27,20 @@ public class FlightDetails {
         this.flightId = flightId;
     }
 
-    public LocalDateTime getDeparture() {
+    public String getDeparture() {
         return departure;
     }
 
-    public void setDeparture(LocalDateTime departure) {
+    public void setDeparture(String departure) {
         this.departure = departure;
     }
 
-    public LocalDateTime getArrival() {
-        return arrival;
+    public String getDestination() {
+        return destination;
     }
 
-    public void setArrival(LocalDateTime arrival) {
-        this.arrival = arrival;
+    public void setDestination(String destination) {
+        this.destination = destination;
     }
 
     public Integer getNumberOfSeats() {

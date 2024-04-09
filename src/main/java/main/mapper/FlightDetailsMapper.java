@@ -11,7 +11,7 @@ public class FlightDetailsMapper {
         entity.setOperatorId(dto.getOperatorId());
         entity.setFlightId(dto.getFlightId());
         entity.setDeparture(dto.getDeparture());
-        entity.setArrival(dto.getArrival());
+        entity.setDestination(dto.getDestination());
         entity.setNumberOfSeats(dto.getNumberOfSeats());
         entity.setStandardPrice(dto.getStandardPrice());
         return entity;
@@ -22,7 +22,7 @@ public class FlightDetailsMapper {
         dto.setOperatorId(entity.getOperatorId());
         dto.setFlightId(entity.getFlightId());
         dto.setDeparture(entity.getDeparture());
-        dto.setArrival(entity.getArrival());
+        dto.setDestination(entity.getDestination());
         dto.setNumberOfSeats(entity.getNumberOfSeats());
         dto.setStandardPrice(entity.getStandardPrice());
         return dto;

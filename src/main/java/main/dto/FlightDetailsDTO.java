@@ -5,10 +5,11 @@ import java.time.LocalDateTime;
 public class FlightDetailsDTO {
     private String operatorId;
     private String flightId;
-    private LocalDateTime departure;
-    private LocalDateTime arrival;
+    private String departure;
+    private String destination;
     private Integer numberOfSeats;
     private Double standardPrice;
+    private String date;
 
     public String getOperatorId() {
         return operatorId;
@@ -26,20 +27,20 @@ public class FlightDetailsDTO {
         this.flightId = flightId;
     }
 
-    public LocalDateTime getDeparture() {
+    public String getDeparture() {
         return departure;
     }
 
-    public void setDeparture(LocalDateTime departure) {
+    public void setDeparture(String departure) {
         this.departure = departure;
     }
 
-    public LocalDateTime getArrival() {
-        return arrival;
+    public String getDestination() {
+        return destination;
     }
 
-    public void setArrival(LocalDateTime arrival) {
-        this.arrival = arrival;
+    public void setDestination(String destination) {
+        this.destination = destination;
     }
 
     public Integer getNumberOfSeats() {
@@ -56,5 +57,13 @@ public class FlightDetailsDTO {
 
     public void setStandardPrice(Double standardPrice) {
         this.standardPrice = standardPrice;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
