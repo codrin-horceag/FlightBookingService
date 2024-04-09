@@ -5,7 +5,6 @@ import main.mapper.BookingMapper;
 import main.mapper.avro.AdminRequestMapper;
 import main.mapper.avro.PaymentRequestMapper;
 import main.repository.BookingRepository;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -57,26 +56,6 @@ public class AdminRequestConsumer {
                 return bookingRepository.save(booking);
             }
             return null;
-        }).subscribe();
-    }
-
-    @KafkaListener(topics = "payment-details-topic", groupId = "payment-details-response-group")
-    public void handlePaymentDetailsResponse(PaymentRequest paymentResponse) {
-        bookingRepository.findById(paymentResponse.getBookingId()).flatMap(booking -> {
-            if (paymentResponse.getStatus().equals("SUCCEEDED")) {
-                // Update booking status and notify
-                booking.setStatus("COMPLETED");
-                kafkaTemplate.send("notification-topic", "Your booking is confirmed: " + booking.getBookingId());
-            } else {
-                // Update booking status, notify, and inform admin to revert seats
-                booking.setStatus("FAILED");
-                kafkaTemplate.send("notification-topic", "Your booking has failed: " + booking.getBookingId());
-                AdminRequest revertRequest = adminRequestMapper.toAdminRequest(booking);
-                revertRequest.setStatus("FAILED");
-                // Set other fields to revert the operation
-                kafkaTemplate.send("admin-topic", revertRequest);
-            }
-            return bookingRepository.save(booking);
         }).subscribe();
     }
 }

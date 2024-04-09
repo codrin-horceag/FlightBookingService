@@ -1,6 +1,5 @@
 package main.dto;
 
-import java.time.LocalDateTime;
 
 public class FlightDetailsDTO {
     private String operatorId;

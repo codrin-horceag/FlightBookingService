@@ -1,6 +1,5 @@
 package main.model;
 
-import java.time.LocalDateTime;
 
 public class FlightDetails {
 

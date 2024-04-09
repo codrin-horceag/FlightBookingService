@@ -1,15 +1,15 @@
 package main.consumer;
 
+import avro.AdminRequest;
 import avro.PaymentRequest;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import main.mapper.PaymentDetailsMapper;
+import main.mapper.avro.AdminRequestMapper;
 import main.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 
 @Service
 public class PaymentRequestConsumer {
@@ -20,24 +20,29 @@ public class PaymentRequestConsumer {
     @Autowired
     private BookingRepository bookingRepository;
     @Autowired
-    private PaymentDetailsMapper paymentDetailsMapper; // Assuming you have a mapper for PaymentDetails
+    private PaymentDetailsMapper paymentDetailsMapper;
 
-    @KafkaListener(topics = "payment-response-topic", groupId = "payment-details-group")
-    public void listenToPaymentResponse(PaymentRequest response) {
-        if ("SUCCEEDED".equals(response.getStatus())) {
-            // Update booking in the database to reflect payment success
-            bookingRepository.findById(response.getBookingId()).subscribe(booking -> {
-                booking.setStatus("CONFIRMED");
-                bookingRepository.save(booking);
-            });
-            // Assume a method to send OK notification exists
-        } else {
-            // Update booking status to FAILED and handle accordingly
-            bookingRepository.findById(response.getBookingId()).subscribe(booking -> {
+    @Autowired
+    private AdminRequestMapper adminRequestMapper;
+
+    @KafkaListener(topics = "payment-details-topic", groupId = "payment-details-response-group")
+    public void handlePaymentDetailsResponse(PaymentRequest paymentResponse) {
+        bookingRepository.findById(paymentResponse.getBookingId()).flatMap(booking -> {
+            if (paymentResponse.getStatus().equals("SUCCEEDED")) {
+                // Update booking status and notify
+                booking.setStatus("COMPLETED");
+                //TODO: Replace with actual notification message
+                kafkaTemplate.send("notification-topic", "Your booking is confirmed: " + booking.getBookingId());
+            } else {
+                // Update booking status, notify, and inform admin to revert seats
                 booking.setStatus("FAILED");
-                bookingRepository.save(booking);
-                // Handle sending notification of failure
-            });
-        }
+                kafkaTemplate.send("notification-topic", "Your booking has failed: " + booking.getBookingId());
+                AdminRequest revertRequest = adminRequestMapper.toAdminRequest(booking);
+                revertRequest.setStatus("FAILED");
+                // Set other fields to revert the operation
+                kafkaTemplate.send("admin-topic", revertRequest);
+            }
+            return bookingRepository.save(booking);
+        }).subscribe();
     }
 }
