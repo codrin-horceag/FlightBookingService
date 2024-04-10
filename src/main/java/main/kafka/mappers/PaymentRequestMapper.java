@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PaymentRequestMapper {
 
-    public PaymentRequest toAvroRecord(BookingDTO bookingDto) {
+    public PaymentRequest toPaymentRequest(BookingDTO bookingDto) {
         FlightDetailsDTO flightDetailsDto = bookingDto.getFlightDetails();
         PaymentDetailsDTO paymentDetailsDto = bookingDto.getPaymentDetails();
         return PaymentRequest.newBuilder()

@@ -3,6 +3,7 @@ package main.kafka.consumer;
 import avro.AdminRequest;
 import avro.BookingNotification;
 import avro.PaymentRequest;
+import main.constants.notification.NotificationMessagesConstants;
 import main.mapper.PaymentDetailsMapper;
 import main.kafka.mappers.AdminRequestMapper;
 import main.kafka.mappers.NotificationRequestMapper;
@@ -34,19 +35,25 @@ public class PaymentRequestConsumer {
             if (paymentResponse.getStatus().equals("SUCCEEDED")) {
                 // Update booking status and notify
                 booking.setStatus("COMPLETED");
-                //TODO: Replace with actual notification message
-                BookingNotification paymentSuccessfulNotification =
-                        notificationRequestMapper
-                        .toBookingNotification(booking, "message");
+
+                // Send payment successful notification
+                BookingNotification paymentSuccessfulNotification = notificationRequestMapper
+                        .toBookingNotification(booking, NotificationMessagesConstants.PAYMEMT_SUCCESSFUL_MESSAGE);
                 kafkaTemplate
-                        .send("booking-notification-topic", "Your booking is confirmed: " + booking.getBookingId());
+                        .send("payment-notification-topic", paymentSuccessfulNotification);
             } else {
                 // Update booking status, notify, and inform admin to revert seats
                 booking.setStatus("FAILED");
-                kafkaTemplate.send("notification-topic", "Your booking has failed: " + booking.getBookingId());
+
+                // Send payment failed notification
+                BookingNotification paymentFailedNotification = notificationRequestMapper
+                        .toBookingNotification(booking, NotificationMessagesConstants.PAYMENT_UNSUCCESSFUL_MESSAGE);
+                kafkaTemplate
+                        .send("payment-notification-topic", paymentFailedNotification);
+
+                // Send message to admin to revert the request
                 AdminRequest revertRequest = adminRequestMapper.toAdminRequest(booking);
                 revertRequest.setStatus("FAILED");
-                // Set other fields to revert the operation
                 kafkaTemplate.send("admin-request-topic", revertRequest);
             }
             return bookingRepository.save(booking);
