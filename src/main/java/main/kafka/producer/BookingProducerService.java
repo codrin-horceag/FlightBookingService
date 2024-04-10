@@ -1,4 +1,4 @@
-package main.producer;
+package main.kafka.producer;
 
 
 import avro.AdminRequest;

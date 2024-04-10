@@ -1,4 +1,4 @@
-package main.mapper.avro;
+package main.kafka.mappers;
 
 import avro.PaymentRequest;
 import main.dto.BookingDTO;

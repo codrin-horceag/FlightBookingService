@@ -1,9 +1,9 @@
-package main.consumer;
+package main.kafka.consumer;
 import avro.AdminRequest;
 import avro.PaymentRequest;
 import main.mapper.BookingMapper;
-import main.mapper.avro.AdminRequestMapper;
-import main.mapper.avro.PaymentRequestMapper;
+import main.kafka.mappers.AdminRequestMapper;
+import main.kafka.mappers.PaymentRequestMapper;
 import main.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -40,13 +40,13 @@ public class AdminRequestConsumer {
                     PaymentRequest paymentRequest = paymentRequestMapper
                             .toAvroRecord(bookingMapper.toDTO(booking));
                     // Set other fields accordingly
-                    kafkaTemplate.send("payment-details-topic", paymentRequest);
+                    kafkaTemplate.send("payment-request-topic", paymentRequest);
                 } else {
                     // Handle expired booking
                     booking.setStatus("EXPIRED");
                     AdminRequest adminRequest = adminRequestMapper.toAdminRequest(booking);
                     adminRequest.setStatus("FAILED");
-                    kafkaTemplate.send("admin-response-topic", adminRequest);
+                    kafkaTemplate.send("admin-request-topic", adminRequest);
                     return bookingRepository.save(booking);
 
                 }
